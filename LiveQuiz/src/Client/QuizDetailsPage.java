@@ -16,13 +16,13 @@ import javax.swing.JPanel;
 
 public class QuizDetailsPage {
 
-	JPanel quizeDetailsJPanel;
+	JPanel quizDetailsJPanel;
 	JLabel uniqueId;
 	JLabel numberOfJoinedPeople;
 	JButton btn_startQuizButton;
 	QuizDetailsPage(String uniqueIDstr,int numberofPeople)
 	{
-		quizeDetailsJPanel = new JPanel(new GridBagLayout());
+		quizDetailsJPanel = new JPanel(new GridBagLayout());
 		uniqueId = new JLabel("Unique ID: "+uniqueIDstr);
 		numberOfJoinedPeople = new JLabel("Participants: "+numberofPeople);
 		btn_startQuizButton = new JButton("Start");
@@ -30,7 +30,7 @@ public class QuizDetailsPage {
 	}
 	private void setup()
 	{
-		quizeDetailsJPanel.setBackground(Res.clr_bg_primary);
+		quizDetailsJPanel.setBackground(Res.clr_bg_primary);
 		
 		GridBagConstraints gridBagConstraints = new GridBagConstraints();
 		gridBagConstraints.gridx=0;
@@ -38,27 +38,27 @@ public class QuizDetailsPage {
 		gridBagConstraints.insets= new Insets(-600, -700, 0, 0);
 		uniqueId.setFont(new Font("Sans Serif",Font.BOLD,24));
 		uniqueId.setForeground(Color.MAGENTA);
-		quizeDetailsJPanel.add(uniqueId,gridBagConstraints);
+		quizDetailsJPanel.add(uniqueId,gridBagConstraints);
 		
 		gridBagConstraints.gridy=1;
 		gridBagConstraints.insets= new Insets(-580, -690, 0, 0);
 		numberOfJoinedPeople.setFont(new Font("Sans Serif",Font.BOLD,24));
 		numberOfJoinedPeople.setForeground(Color.MAGENTA);
-		quizeDetailsJPanel.add(numberOfJoinedPeople,gridBagConstraints);
+		quizDetailsJPanel.add(numberOfJoinedPeople,gridBagConstraints);
 		
 		gridBagConstraints = new GridBagConstraints();
 		gridBagConstraints.gridx=0;
 		gridBagConstraints.gridy=0;
 		btn_startQuizButton.setPreferredSize(new Dimension(180,60));
 		btn_startQuizButton.setBackground(Res.clr_btn_green);
-		btn_startQuizButton.setForeground(Color.WHITE);
+		//btn_startQuizButton.setForeground(Color.WHITE);
 		btn_startQuizButton.setFont(new Font("Sans Sherif",Font.BOLD,16));
-		quizeDetailsJPanel.add(btn_startQuizButton,gridBagConstraints);
+		quizDetailsJPanel.add(btn_startQuizButton,gridBagConstraints);
 	}
 	
 	public JPanel getPanel()
 	{
-		return quizeDetailsJPanel;
+		return quizDetailsJPanel;
 	}
 	
 	public static void main(String[]args)
