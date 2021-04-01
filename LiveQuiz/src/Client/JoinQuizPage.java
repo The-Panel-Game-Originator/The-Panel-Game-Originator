@@ -31,7 +31,7 @@ public class JoinQuizPage {
 		
 		titleJLabel = new JLabel("LiveQuiz");
 		uniqueIDField = new JTextField();
-		uniqueIDJLabel = new JLabel("Test ID: ");
+		uniqueIDJLabel = new JLabel("Test ID:");
 		
 		btn_joinButton = new JButton("JOIN");
 		setup();	
@@ -60,15 +60,18 @@ public class JoinQuizPage {
 		nameJLabel.setForeground(Color.WHITE);
 		joinQuizJPanel.add(nameJLabel,gridBagConstraints);
 		gridBagConstraints.gridx = 1;
+		gridBagConstraints.insets = new Insets(0,20,30, 0);
 		nameField.setPreferredSize(new Dimension(300,36));
 		joinQuizJPanel.add(nameField,gridBagConstraints);
 		
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 2;
+		gridBagConstraints.insets = new Insets(0,0, 0, 0);
 		uniqueIDJLabel.setFont(new Font("Sans Srief",Font.BOLD,20));
 		uniqueIDJLabel.setForeground(Color.WHITE);
 		joinQuizJPanel.add(uniqueIDJLabel,gridBagConstraints);
 		gridBagConstraints.gridx = 1;
+		gridBagConstraints.insets = new Insets(0,20, 0, 0);
 		uniqueIDField.setPreferredSize(new Dimension(300,36));
 		joinQuizJPanel.add(uniqueIDField,gridBagConstraints);
 		
