@@ -11,9 +11,11 @@ public class HomePage {
 	private JButton btn_CreateQuiz;
 	private JButton btn_JoinQuiz;
 	private JPanel buttonPanel;
-	HomePage()
+	private JFrame mainFrame;
+	HomePage(JFrame frame)
 	{
 		// Initializing the GUI components 
+		mainFrame = frame;
 		homePanel = new JPanel(new GridBagLayout());
 		homePanel.setBounds(0,0,Res.window_height,Res.window_width);
 		title = new JLabel("LiveQuiz");
@@ -89,7 +91,13 @@ public class HomePage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("Clicked Button : Create Quiz");
+				CreateQuizPage createQuizPage = new CreateQuizPage(mainFrame);				
+				mainFrame.getContentPane().removeAll();
+				mainFrame.getContentPane().repaint();
+				mainFrame.getContentPane().add(createQuizPage.getPanel());
+				mainFrame.getContentPane().validate();
+				//System.out.println("Added");
+				//System.out.println("Clicked Button : Create Quiz");
 			}
 			
 		});
@@ -98,8 +106,11 @@ public class HomePage {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Clicked Button : Join Quiz");
+				JoinQuizPage joinQuizPage = new JoinQuizPage(mainFrame);				
+				mainFrame.getContentPane().removeAll();
+				mainFrame.getContentPane().repaint();
+				mainFrame.getContentPane().add(joinQuizPage.getPanel());
+				mainFrame.getContentPane().validate();
 			}
 			
 		});
@@ -110,16 +121,5 @@ public class HomePage {
 		return homePanel;
 	}
 	
-	// Main method for Testing 
-	public static void main(String[]args)
-	{
-		HomePage p = new HomePage();
-		JFrame frame = new JFrame();
-		frame.setBackground(Res.clr_bg_primary);
-		frame.setLayout(new BorderLayout());
-		frame.setSize(Res.window_width,Res.window_height);
-		frame.setResizable(false);
-		frame.add(p.getHomePanel(),BorderLayout.CENTER);
-		frame.setVisible(true);
-	}
+	
 }

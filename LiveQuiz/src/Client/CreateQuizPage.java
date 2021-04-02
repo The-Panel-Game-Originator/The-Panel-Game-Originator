@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,7 +30,9 @@ public class CreateQuizPage {
 	JButton btn_backButton;
 	JButton btn_next;
 	JButton btn_checkUniqueID;
-	public CreateQuizPage() {
+	JFrame mainFrame;
+	public CreateQuizPage(JFrame frame) {
+		mainFrame = frame;
 		createQuizPageJPanel = new JPanel(new GridBagLayout());
 		createQuizPageJPanel.setSize(Res.window_width,Res.window_height);
 		createQuizPageJPanel.setBackground(Res.clr_bg_primary);
@@ -98,21 +102,25 @@ public class CreateQuizPage {
 		btn_next.setPreferredSize(new Dimension(120,40));
 		createQuizPageJPanel.add(btn_next,g);
 		
+		btn_backButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				HomePage homePage = new HomePage(mainFrame);
+				mainFrame.getContentPane().removeAll();
+				mainFrame.getContentPane().repaint();
+				mainFrame.getContentPane().add(homePage.getHomePanel());
+				mainFrame.getContentPane().validate();
+				//System.out.println("Added");
+				
+			}
+		});
+	
 	}
 	
 	public JPanel getPanel()
 	{
 		return createQuizPageJPanel;
 	}
-	public static void main(String[]args)
-	{
-	 CreateQuizPage page = new CreateQuizPage();
-	  JFrame frame = new JFrame();
-	    frame.setBackground(Res.clr_bg_primary);
-		frame.setLayout(new BorderLayout());
-		frame.setSize(Res.window_width,Res.window_height);
-		frame.setResizable(false);
-		frame.add(page.getPanel(),BorderLayout.CENTER);
-		frame.setVisible(true);
-	}
+	
 }

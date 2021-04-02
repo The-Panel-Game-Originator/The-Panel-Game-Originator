@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.nio.channels.NonReadableChannelException;
 
 import javax.swing.JButton;
@@ -23,8 +25,11 @@ public class JoinQuizPage {
 	JLabel uniqueIDJLabel;
 	JTextField uniqueIDField;
 	JButton btn_joinButton;
+	JButton btn_backButton;
+	JFrame mainFrame;
 	
-	public JoinQuizPage() {
+	public JoinQuizPage(JFrame frame) {
+		mainFrame = frame;
 		joinQuizJPanel = new JPanel(new GridBagLayout());
 		nameField = new JTextField();
 		nameJLabel = new JLabel("Name: ");
@@ -34,6 +39,7 @@ public class JoinQuizPage {
 		uniqueIDJLabel = new JLabel("Test ID:");
 		
 		btn_joinButton = new JButton("JOIN");
+		btn_backButton = new JButton("BACK");
 		setup();	
 	}
 	
@@ -83,24 +89,30 @@ public class JoinQuizPage {
 		btn_joinButton.setPreferredSize(new Dimension(140,40));
 		joinQuizJPanel.add(btn_joinButton,gridBagConstraints);
 		
+		gridBagConstraints.gridy = 4;
+		gridBagConstraints.insets = new Insets(40, 0, 0, 0);
+		//gridBagConstraints.gridwidth=4;
+		btn_backButton.setBackground(Res.clr_title_red);
+		btn_backButton.setForeground(Color.WHITE);
+		btn_backButton.setPreferredSize(new Dimension(140,40));
+		joinQuizJPanel.add(btn_backButton,gridBagConstraints);
 		
+		btn_backButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				HomePage homePage = new HomePage(mainFrame);				
+				mainFrame.getContentPane().removeAll();
+				mainFrame.getContentPane().repaint();
+				mainFrame.getContentPane().add(homePage.getHomePanel());
+				mainFrame.getContentPane().validate();
+				
+			}
+		});
 	}
 	public JPanel getPanel()
 	{
 		return joinQuizJPanel;
 	}
-
-	public static void main(String[]args)
-	{
-		JoinQuizPage page = new JoinQuizPage();
-	  JFrame frame = new JFrame();
-	    frame.setBackground(Res.clr_bg_primary);
-		frame.setLayout(new BorderLayout());
-		frame.setSize(Res.window_width,Res.window_height);
-		frame.setResizable(false);
-		frame.add(page.getPanel(),BorderLayout.CENTER);
-		frame.setVisible(true);
-	}
-
 
 }
