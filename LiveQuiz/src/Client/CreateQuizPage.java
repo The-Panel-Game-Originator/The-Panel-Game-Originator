@@ -13,12 +13,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 public class CreateQuizPage {
 
+	boolean isIDChecked;
 	JLabel titleJLabel;
 	JLabel uniqueIDJLabel;
 	JLabel numberOfQuestionsJLabel;
@@ -32,6 +34,7 @@ public class CreateQuizPage {
 	JButton btn_checkUniqueID;
 	JFrame mainFrame;
 	public CreateQuizPage(JFrame frame) {
+		isIDChecked = true;
 		mainFrame = frame;
 		createQuizPageJPanel = new JPanel(new GridBagLayout());
 		createQuizPageJPanel.setSize(Res.window_width,Res.window_height);
@@ -115,7 +118,54 @@ public class CreateQuizPage {
 				
 			}
 		});
+		
+		btn_next.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(isIDChecked)
+				{
+					String uinqueID;
+					int timeLim,numQueS;
+					
+					uinqueID = uniqueIDField.getText();
+					timeLim = getnumber(timeLimitPerQuestionField.getText());
+					numQueS = getnumber(numberOfQuestionsField.getText());
+					
+					if(timeLimitPerQuestionField.getText().equals("")|| timeLim<=0)
+					{
+						JOptionPane.showMessageDialog(mainFrame.getContentPane(),"Invalid time limit!");
+						return;
+					}
+					if(numberOfQuestionsField.getText().equals("")||numQueS<=0)
+					{
+						JOptionPane.showMessageDialog(mainFrame.getContentPane(),"Invalid number of questions!");
+						return;
+					}
+							
+					// next
+				}
+				else 
+				{
+					//warning
+					JOptionPane.showMessageDialog(mainFrame.getContentPane(),"Requires a unique ID!");
+				}
+				
+				
+			}
+		});
 	
+	}
+	
+	private int getnumber(String str){
+		int num = -1;
+		try{
+			num = Integer.parseInt(str);
+		}
+		catch (Exception e) {
+			return -1;
+		}
+		return num;
 	}
 	
 	public JPanel getPanel()
