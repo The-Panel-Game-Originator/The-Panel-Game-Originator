@@ -9,6 +9,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.nio.channels.NonReadableChannelException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,6 +19,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import org.graalvm.compiler.core.GraalCompiler.Request;
+
+import NetworkUtils.Requests;
+import jdk.javadoc.internal.tool.Start;
 
 public class CreateQuizPage {
 
@@ -33,7 +40,9 @@ public class CreateQuizPage {
 	JButton btn_next;
 	JButton btn_checkUniqueID;
 	JFrame mainFrame;
-	public CreateQuizPage(JFrame frame) {
+	Requests requests;
+	public CreateQuizPage(JFrame frame,Requests requests) {
+		this.requests = requests;
 		isIDChecked = true;
 		mainFrame = frame;
 		createQuizPageJPanel = new JPanel(new GridBagLayout());
@@ -105,11 +114,34 @@ public class CreateQuizPage {
 		btn_next.setPreferredSize(new Dimension(120,40));
 		createQuizPageJPanel.add(btn_next,g);
 		
+		btn_checkUniqueID.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				new Thread( new Runnable() {		
+					@Override
+					public void run() {
+						String idString = uniqueIDField.getText().toString();
+						requests.send_chkID(idString);
+						try {
+							String response = requests.getResonse();
+							System.out.println(response);
+						} catch (IOException e) {
+							
+							e.printStackTrace();
+						}
+					}
+				}).start();
+				
+				
+			}
+		});
 		btn_backButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				HomePage homePage = new HomePage(mainFrame);
+				HomePage homePage = new HomePage(mainFrame,requests);
 				mainFrame.getContentPane().removeAll();
 				mainFrame.getContentPane().repaint();
 				mainFrame.getContentPane().add(homePage.getHomePanel());

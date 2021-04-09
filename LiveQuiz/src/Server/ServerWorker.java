@@ -1,13 +1,21 @@
 package Server;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.apache.commons.lang3.StringUtils;
+
+import com.mysql.cj.protocol.Resultset;
+import com.mysql.cj.xdevapi.Result;
 
 
 
@@ -18,9 +26,11 @@ public class ServerWorker extends Thread{
 	Socket socket;
 	OutputStream outputStream;
 	InputStream inputStream;
-	Connection dataConnection;
-	public ServerWorker(Server server , Socket socket,Connection dataConnection) {	
-		this.dataConnection = dataConnection;
+	DataOutputStream dataOutputStream;
+	volatile Connection databaseConnection;
+	
+	public ServerWorker(Server server , Socket socket,Connection databaseConnection) {	
+		this.databaseConnection = databaseConnection;
 		this.server = server;
 		this.socket = socket;
 	}
@@ -38,6 +48,7 @@ public class ServerWorker extends Thread{
 	{
 		inputStream = socket.getInputStream();
 		outputStream = socket.getOutputStream();
+		dataOutputStream = new DataOutputStream(outputStream);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 		
 		//ObjectInputStream  objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -48,13 +59,40 @@ public class ServerWorker extends Thread{
 		while((line=reader.readLine())!=null)
 		{
 			String[]token = StringUtils.split(line);
-			System.out.println("reciverd "+token[0]);
+			//System.out.println("recived :"+token[0]);
 			if(token[0].equals("chkID"))
 			{
 				// 
-				System.out.println("Checking ID");
+				//System.out.println("Checking ID: "+token[1]);
+				if(checkID(token[1]))
+				{
+					dataOutputStream.writeUTF("!OK\n");
+				}
+				else
+				{
+					dataOutputStream.writeUTF("OK\n");
+				}
 			}
 		}
 		
+	}
+	
+	private boolean checkID(String ID)
+	{
+		try {
+			PreparedStatement statement = databaseConnection.prepareCall(SqlQuery.CHECKID_STRING);
+			statement.setString(1, ID);
+			 ResultSet resultset = statement.executeQuery();
+			 if(resultset != null)
+			 {
+				 if(resultset.getRow()>0) return true;
+				 else return false;
+			 }
+			 else return true;
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			return true;
+		}
 	}
 }

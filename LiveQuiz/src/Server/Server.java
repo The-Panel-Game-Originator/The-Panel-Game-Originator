@@ -15,7 +15,7 @@ public class Server extends Thread{
 
 	ServerSocket serverSocket;
 	Connection conn;
-	Statement statement;
+	volatile Statement statement;
 	ArrayList<ServerWorker> activeClient;
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	static final String DB_URL = "jdbc:mysql://localhost:3306";

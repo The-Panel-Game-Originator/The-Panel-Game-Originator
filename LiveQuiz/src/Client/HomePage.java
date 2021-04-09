@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+
+import NetworkUtils.Requests;
 public class HomePage {
 	private JPanel homePanel;
 	private JLabel title;
@@ -12,9 +14,11 @@ public class HomePage {
 	private JButton btn_JoinQuiz;
 	private JPanel buttonPanel;
 	private JFrame mainFrame;
-	HomePage(JFrame frame)
+	private Requests requests;
+	HomePage(JFrame frame, Requests requests)
 	{
 		// Initializing the GUI components 
+		this.requests = requests;
 		mainFrame = frame;
 		homePanel = new JPanel(new GridBagLayout());
 		homePanel.setBounds(0,0,Res.window_height,Res.window_width);
@@ -91,7 +95,7 @@ public class HomePage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				CreateQuizPage createQuizPage = new CreateQuizPage(mainFrame);				
+				CreateQuizPage createQuizPage = new CreateQuizPage(mainFrame,requests);				
 				mainFrame.getContentPane().removeAll();
 				mainFrame.getContentPane().repaint();
 				mainFrame.getContentPane().add(createQuizPage.getPanel());
